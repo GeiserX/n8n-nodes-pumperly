@@ -77,6 +77,7 @@ export class PumperlyTrigger implements INodeType {
 		// Get stored timestamps from previous poll
 		const storedData = this.getWorkflowStaticData('node');
 		const lastTimestamps = (storedData.lastTimestamps as Record<string, string>) ?? {};
+		const isFirstPoll = Object.keys(lastTimestamps).length === 0;
 
 		const updatedCountries: INodeExecutionData[] = [];
 
@@ -89,8 +90,8 @@ export class PumperlyTrigger implements INodeType {
 			const currentUpdate = country.lastUpdate;
 			const previousUpdate = lastTimestamps[country.code];
 
-			// Trigger if: we have a timestamp, and it differs from stored
-			if (currentUpdate && currentUpdate !== previousUpdate) {
+			// On first poll, seed state without emitting events to avoid replaying historical data
+			if (!isFirstPoll && currentUpdate && currentUpdate !== previousUpdate) {
 				updatedCountries.push({
 					json: {
 						country: country.code,
