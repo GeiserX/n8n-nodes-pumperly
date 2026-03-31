@@ -1,0 +1,52 @@
+{
+	"name": "n8n-nodes-pumperly",
+	"version": "0.1.0",
+	"description": "n8n community node for Pumperly — real-time fuel and EV charging price data, station search, and route planning",
+	"keywords": [
+		"n8n-community-node-package",
+		"pumperly",
+		"fuel-prices",
+		"ev-charging",
+		"gas-stations",
+		"route-planning",
+		"self-hosted"
+	],
+	"license": "MIT",
+	"homepage": "https://github.com/GeiserX/n8n-nodes-pumperly",
+	"author": {
+		"name": "GeiserX",
+		"email": "sergio@geiser.cloud"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/GeiserX/n8n-nodes-pumperly.git"
+	},
+	"engines": {
+		"node": ">=22.0"
+	},
+	"main": "dist/nodes/Pumperly/Pumperly.node.js",
+	"scripts": {
+		"build": "tsc && node build-icons.cjs",
+		"prepublishOnly": "npm run build"
+	},
+	"files": [
+		"dist"
+	],
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"credentials": [
+			"dist/credentials/PumperlyApi.credentials.js"
+		],
+		"nodes": [
+			"dist/nodes/Pumperly/Pumperly.node.js",
+			"dist/nodes/Pumperly/PumperlyTrigger.node.js"
+		]
+	},
+	"devDependencies": {
+		"n8n-workflow": "^1.72.0",
+		"typescript": "~5.7.0"
+	},
+	"peerDependencies": {
+		"n8n-workflow": "*"
+	}
+}
