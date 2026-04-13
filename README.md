@@ -66,6 +66,16 @@ This node connects to the Pumperly public API which requires no authentication. 
 - [n8n-nodes-telegram-archive](https://github.com/GeiserX/n8n-nodes-telegram-archive) — Telegram message archive
 - [n8n-nodes-way-cms](https://github.com/GeiserX/n8n-nodes-way-cms) — Web archive content management
 
+
+## Related Projects
+
+| Project | Description |
+|---------|-------------|
+| [Pumperly](https://github.com/GeiserX/Pumperly) | Open-source fuel and EV route planner with real-time prices |
+| [Pumperly-android](https://github.com/GeiserX/Pumperly-android) | Official Android app for Pumperly fuel and EV route planner |
+| [pumperly-ha](https://github.com/GeiserX/pumperly-ha) | Home Assistant custom integration for Pumperly fuel and EV charging prices |
+| [pumperly-mcp](https://github.com/GeiserX/pumperly-mcp) | MCP Server for Pumperly real-time fuel and EV charging prices |
+
 ## License
 
 [GPL-3.0](LICENSE)
