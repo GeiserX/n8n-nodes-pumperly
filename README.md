@@ -2,6 +2,10 @@
   <img src="docs/images/banner.svg" alt="n8n-nodes-pumperly banner" width="900"/>
 </p>
 
+<p align="center">
+  <a href="https://codecov.io/gh/GeiserX/n8n-nodes-pumperly"><img src="https://codecov.io/gh/GeiserX/n8n-nodes-pumperly/graph/badge.svg" alt="codecov"></a>
+</p>
+
 # n8n-nodes-pumperly
 
 n8n community node for [Pumperly](https://pumperly.com) — real-time fuel and EV charging price data, station search, and route planning.
