@@ -13,4 +13,9 @@ jobs:
         with: { node-version: 22 }
       - run: npm ci
       - run: npm run build
-      - run: npm test
+      - run: npx vitest run --coverage
+      - uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage/lcov.info
+          fail_ci_if_error: false

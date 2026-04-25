@@ -93,4 +93,77 @@ describe('PumperlyTrigger Node', () => {
 
 		expect(result).toBeNull();
 	});
+
+	it('throws NodeApiError when response has no countries', async () => {
+		const staticData: Record<string, any> = {};
+		const httpResponse = { totals: { stations: 0, prices: 0 } };
+
+		const ctx = createMockContext({ countryFilter: '' }, staticData, httpResponse);
+		(ctx as any).getNode = () => ({ name: 'PumperlyTrigger' });
+
+		await expect(trigger.poll.call(ctx as any)).rejects.toThrow();
+	});
+
+	it('filters by country code when countryFilter is set', async () => {
+		const staticData: Record<string, any> = {
+			lastTimestamps: {
+				ES: '2026-04-01T10:00:00Z',
+				DE: '2026-04-01T09:00:00Z',
+			},
+		};
+		const httpResponse = {
+			totals: { stations: 100, prices: 500 },
+			countries: [
+				{ code: 'ES', name: 'Spain', stations: 50, prices: 260, lastUpdate: '2026-04-01T11:00:00Z' },
+				{ code: 'DE', name: 'Germany', stations: 50, prices: 260, lastUpdate: '2026-04-01T10:00:00Z' },
+			],
+		};
+
+		const ctx = createMockContext({ countryFilter: 'ES' }, staticData, httpResponse);
+		const result = await trigger.poll.call(ctx as any);
+
+		expect(result).not.toBeNull();
+		expect(result![0]).toHaveLength(1);
+		expect(result![0][0].json.country).toBe('ES');
+	});
+
+	it('skips countries not in filter', async () => {
+		const staticData: Record<string, any> = {
+			lastTimestamps: {
+				ES: '2026-04-01T10:00:00Z',
+				DE: '2026-04-01T09:00:00Z',
+			},
+		};
+		const httpResponse = {
+			totals: { stations: 100, prices: 500 },
+			countries: [
+				{ code: 'ES', name: 'Spain', stations: 50, prices: 250, lastUpdate: '2026-04-01T10:00:00Z' },
+				{ code: 'DE', name: 'Germany', stations: 50, prices: 260, lastUpdate: '2026-04-01T10:00:00Z' },
+			],
+		};
+
+		const ctx = createMockContext({ countryFilter: 'FR' }, staticData, httpResponse);
+		const result = await trigger.poll.call(ctx as any);
+
+		expect(result).toBeNull();
+	});
+
+	it('handles country with null lastUpdate', async () => {
+		const staticData: Record<string, any> = {
+			lastTimestamps: {
+				ES: '2026-04-01T10:00:00Z',
+			},
+		};
+		const httpResponse = {
+			totals: { stations: 50, prices: 250 },
+			countries: [
+				{ code: 'ES', name: 'Spain', stations: 50, prices: 250, lastUpdate: null },
+			],
+		};
+
+		const ctx = createMockContext({ countryFilter: '' }, staticData, httpResponse);
+		const result = await trigger.poll.call(ctx as any);
+
+		expect(result).toBeNull();
+	});
 });
