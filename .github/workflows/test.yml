@@ -14,7 +14,7 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npx vitest run --coverage
-      - uses: codecov/codecov-action@v5
+      - uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage/lcov.info
