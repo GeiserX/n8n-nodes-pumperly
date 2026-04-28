@@ -1,4 +1,4 @@
-# AGENTS.md — n8n-nodes-pumperly
+# CLAUDE.md — n8n-nodes-pumperly
 
 ## Project Overview
 
